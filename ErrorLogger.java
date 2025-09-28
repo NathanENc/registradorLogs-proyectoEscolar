@@ -1,5 +1,8 @@
+import java.util.List;
+
 public class ErrorLogger {
-    private String[] errores;
+
+    private List<String> errores;
     private String archivoRegistro;
 
     public ErrorLogger(String archivoRegistro) {
@@ -10,11 +13,17 @@ public class ErrorLogger {
 
     public void guardarRegistro() { }
 
-    public String[] getErrores() {
+    public List<String> getErrores() {
         return errores;
+    }
+    public void setErrores(List<String> errores) {
+        this.errores = errores;
     }
 
     public String getArchivoRegistro() {
         return archivoRegistro;
+    }
+    public void setArchivoRegistro(String archivoRegistro) {
+        this.archivoRegistro = archivoRegistro;
     }
 }

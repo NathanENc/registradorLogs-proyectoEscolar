@@ -1,19 +1,31 @@
-public class LogFileFinder {
-    private String directorioBase;
-    private String[] colaTrabajo;
+import java.io.File;
+import java.util.concurrent.BlockingQueue;
 
-    public LogFileFinder(String directorioBase, String[] colaTrabajo) {
-        this.directorioBase = directorioBase;
-        this.colaTrabajo = colaTrabajo;
+public class LogFileFinder {
+
+    private File directorioBase;
+    private BlockingQueue<File> colaTrabajo;
+
+    public LogFileFinder(File dir, BlockingQueue<File> cola) {
+        this.directorioBase = dir;
+        this.colaTrabajo = cola;
     }
 
     public void findLogs() { }
 
-    public String getDirectorioBase() {
+    public void findLogsRecursively(File currentDir) { }
+
+    public File getDirectorioBase() {
         return directorioBase;
     }
+    public void setDirectorioBase(File directorioBase) {
+        this.directorioBase = directorioBase;
+    }
 
-    public String[] getColaTrabajo() {
+    public BlockingQueue<File> getColaTrabajo() {
         return colaTrabajo;
+    }
+    public void setColaTrabajo(BlockingQueue<File> colaTrabajo) {
+        this.colaTrabajo = colaTrabajo;
     }
 }
