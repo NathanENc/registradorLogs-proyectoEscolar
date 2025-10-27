@@ -1,4 +1,4 @@
-# Proyecto Integrador 1: Procesador de Archivos de Log
+# Proyecto Integrador 2: Procesador de Archivos de Log
 
 Este proyecto es una aplicación en Java diseñada para procesar archivos de log de manera concurrente. La aplicación busca archivos de log en un directorio específico, los procesa en paralelo utilizando un pool de hilos y genera un resumen de los hallazgos.
 
@@ -28,12 +28,3 @@ El proyecto está compuesto por las siguientes clases:
     -   Reporte de coincidencias por fecha.
 
 -   `ErrorLogger.java`: Una clase de utilidad para registrar cualquier error que pueda ocurrir durante la búsqueda o el procesamiento de los archivos.
-
-## Próximos Pasos
-
-1.  **Inicializar atributos**: Inicializar las colecciones y otros objetos en los constructores de las clases (ej. `new ArrayList<>()`).
-2.  **Implementar `LogFileFinder`**: Desarrollar la lógica para buscar archivos de forma recursiva.
-3.  **Implementar `LogFileTask`**: Implementar el método `run()` para leer el contenido de un archivo y procesarlo.
-4.  **Implementar `LogProcessor`**: Desarrollar la lógica para iniciar el `ExecutorService`, crear las tareas y gestionar los resultados.
-5.  **Implementar `Main`**: Crear la lógica en el método `main` para configurar e iniciar el `LogProcessor`.
-6.  **Implementar `ErrorLogger`**: Añadir la funcionalidad para escribir los errores en un archivo.
