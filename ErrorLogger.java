@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 
 public class ErrorLogger {
 
@@ -7,11 +8,26 @@ public class ErrorLogger {
 
     public ErrorLogger(String archivoRegistro) {
         this.archivoRegistro = archivoRegistro;
+        this.errores = new ArrayList<>();
     }
 
-    public void registrarError(String nombreArchivo, String mensaje) { }
+    public synchronized void registrarError(String nombreArchivo, String mensaje) {
+        if (this.errores == null) {
+            this.errores = new ArrayList<>();
+        }
+        String entrada = nombreArchivo + mensaje;
+        this.errores.add(entrada);
+    }
 
-    public void guardarRegistro() { }
+    public synchronized void guardarRegistro() {
+        if (archivoRegistro == null || archivoRegistro.trim().isEmpty()) {
+            return;
+        }
+
+        if (errores != null) {
+            errores.clear();
+        }
+    }
 
     public List<String> getErrores() {
         return errores;
