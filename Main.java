@@ -1,7 +1,7 @@
-import java.util.Scanner;
-import java.util.List;
-import java.util.Arrays;
 import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -59,3 +59,95 @@ public class Main {
                     System.out.println(" - Hilos: " + hilos);
                     System.out.println(" - Salida: " + SALIDA_PRUEBA);
                     break;
+
+                case 2:
+                    if (procesador == null) {
+                        System.out.println("Error: Primero configura el procesador (opcion 1).");
+                    } else {
+                        final LogProcessor procesadorFinal = procesador;
+
+                        hiloProcesador = new Thread(new Runnable() {
+                            public void run() {
+                                procesadorFinal.iniciarProcesamiento();
+                            }
+                        });
+                        hiloProcesador.start();
+
+                        LogFileFinder buscador = new LogFileFinder(
+                                procesadorFinal.getDirectorioBusqueda(),
+                                procesadorFinal.getColaTrabajo()
+                        );
+                        Thread hiloBuscador = new Thread(buscador);
+                        hiloBuscador.start();
+
+                        System.out.println("Procesamiento y búsqueda iniciados en segundo plano.");
+                    }
+                    break;
+
+
+                case 3:
+                    if (procesador == null) {
+                        System.out.println("Error: No hay procesador configurado.");
+                    } else {
+                        procesador.pausar();
+                    }
+                    break;
+
+                case 4:
+                    if (procesador == null) {
+                        System.out.println("Error: No hay procesador configurado.");
+                    } else {
+                        procesador.continuar();
+                    }
+                    break;
+
+                case 5:
+                    if (procesador == null) {
+                        System.out.println("Error: No hay procesador configurado.");
+                    } else {
+                        System.out.println(procesador.getEstadisticas());
+                    }
+                    break;
+
+                case 6:
+                    if (procesador == null) {
+                        System.out.println("Error: No hay procesador configurado.");
+                    } else {
+                        System.out.print("Ruta del archivo: ");
+                        String rutaArchivo = scanner.nextLine();
+                        File archivo = new File(rutaArchivo);
+
+                        if (archivo.exists()) {
+                            procesador.getColaTrabajo().add(archivo);
+                            System.out.println("Archivo agregado a la cola.");
+                        } else {
+                            System.out.println("Error: El archivo no existe.");
+                        }
+                    }
+                    break;
+
+                case 7:
+                    if (procesador == null) {
+                        System.out.println("Error: No hay procesador configurado.");
+                    } else {
+                        procesador.getColaTrabajo().add(new File("END_OF_QUEUE"));
+                        System.out.println("Señal de detencion enviada.");
+                    }
+                    break;
+
+                case 8:
+                    System.out.println("Saliendo del programa...");
+                    if (procesador != null) {
+                        procesador.getColaTrabajo().add(new File("END_OF_QUEUE"));
+                    }
+                    break;
+
+                default:
+                    System.out.println("Opcion no valida. Intenta de nuevo.");
+            }
+
+        } while (opcion != 8);
+
+        scanner.close();
+    }
+}
