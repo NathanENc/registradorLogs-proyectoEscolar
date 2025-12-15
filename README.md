@@ -1,30 +1,56 @@
-# Proyecto Integrador 2: Procesador de Archivos de Log
+# Proyecto Integrador Etapa 3: Procesador Concurrente de Archivos de Log
 
-Este proyecto es una aplicación en Java diseñada para procesar archivos de log de manera concurrente. La aplicación busca archivos de log en un directorio específico, los procesa en paralelo utilizando un pool de hilos y genera un resumen de los hallazgos.
+Este proyecto es una aplicación robusta en **Java** diseñada para el procesamiento concurrente de archivos de log. Utiliza el paradigma **Productor-Consumidor** y el framework `java.util.concurrent` para paralelizar la carga de trabajo, garantizando alta eficiencia y un control dinámico del flujo de procesamiento.
 
-## Estado Actual del Proyecto
+---
 
-El proyecto se encuentra en la fase inicial de desarrollo. Se ha definido la estructura de clases principal, pero la lógica de negocio dentro de los métodos aún no ha sido implementada.
+##  Estado Actual del Proyecto
 
-## Estructura del Proyecto
+> **Fase Final de Implementación (Etapa 3)**
 
-El proyecto está compuesto por las siguientes clases:
+Toda la lógica de negocio, la estructura de concurrencia, el manejo de errores y las funcionalidades de control en tiempo real (**Pausa/Continuar**) han sido implementadas y probadas exitosamente. El sistema se encuentra listo para la ejecución y la generación del reporte final consolidado.
 
--   `Main.java`: Será el punto de entrada de la aplicación. Desde aquí se iniciará el procesador de logs.
+---
 
--   `LogProcessor.java`: Es la clase orquestadora principal. Se encarga de:
-    -   Gestionar un pool de hilos (`ExecutorService`) para procesar los archivos.
-    -   Coordinar la búsqueda y el procesamiento de los archivos de log.
-    -   Almacenar los resultados finales.
+##  Funcionalidades Clave Implementadas
 
--   `LogFileFinder.java`: Su responsabilidad es buscar recursivamente los archivos de log (`.log`) dentro de un directorio base y añadirlos a una cola de trabajo (`BlockingQueue`) para que sean procesados por los hilos.
+El sistema soporta características avanzadas de concurrencia y control de flujo:
 
--   `LogFileTask.java`: Representa una tarea que procesa un único archivo de log. Cada tarea será ejecutada por un hilo del `ExecutorService`. Leerá el archivo, buscará patrones y generará un `LogSummary`.
+### 1. Arranque Concurrente 
+El **Buscador** (`LogFileFinder`) y el **Procesador** (`LogProcessor`) operan en hilos separados bajo el modelo Productor y Consumidor. La comunicación entre ambos se realiza de manera segura a través de una `BlockingQueue`.
 
--   `LogSummary.java`: Es una clase de datos que almacena el resumen del análisis de un archivo de log, incluyendo:
-    -   Nombre del archivo.
-    -   Total de coincidencias encontradas.
-    -   Coincidencias por cada patrón de búsqueda.
-    -   Reporte de coincidencias por fecha.
+### 2. Procesamiento Paralelo 
+Se utiliza un **Pool de Hilos** (`ExecutorService`) para distribuir el análisis de archivos (`LogFileTask`) entre múltiples hilos "obreros", maximizando el uso de la CPU y reduciendo tiempos de espera.
 
--   `ErrorLogger.java`: Una clase de utilidad para registrar cualquier error que pueda ocurrir durante la búsqueda o el procesamiento de los archivos.
+### 3. Control en Tiempo Real 
+Implementación del patrón **Monitor Object** (mediante `wait()` y `notifyAll()`) dentro de `LogProcessor`. Esto permite:
+* Pausar y Continuar el flujo de trabajo de forma segura.
+* Evitar la *espera ocupada* (busy waiting), optimizando recursos.
+
+### 4. Gestión de Concurrencia y Seguridad 
+Los resultados finales y el registro de errores están protegidos contra **Condiciones de Carrera** mediante:
+* `Collections.synchronizedList`
+* Bloques y métodos `synchronized`.
+
+### 5. Tablero de Estado 
+La función de estadísticas (`getEstadisticas`) proporciona visibilidad en tiempo real del sistema:
+* Archivos pendientes en cola.
+* Archivos procesados.
+* Estado actual del procesador: **ACTIVO** / **PAUSADO**.
+
+### 6. Terminación Limpia 
+El sistema permite una finalización ordenada y segura mediante:
+* El envío de una **"píldora venenosa"** (`"END_OF_QUEUE"`) para detener consumidores.
+* La gestión adecuada de la clausura del `ExecutorService` para liberar recursos.
+
+---
+
+##  Tecnologías y Conceptos
+
+* **Lenguaje:** Java
+* **Concurrencia:** `java.util.concurrent`, Threads, Runnable/Callable.
+* **Sincronización:** `synchronized`, `wait()`, `notifyAll()`.
+* **Patrones:** Producer-Consumer, Monitor Object.
+
+---
+_Proyecto desarrollado para la materia de Programación Concurrente._
