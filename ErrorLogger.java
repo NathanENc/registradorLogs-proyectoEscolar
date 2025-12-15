@@ -28,7 +28,6 @@ public class ErrorLogger {
             errores.clear();
         }
     }
-
     public List<String> getErrores() {
         return errores;
     }
