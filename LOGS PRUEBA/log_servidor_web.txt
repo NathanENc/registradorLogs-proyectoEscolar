@@ -1,0 +1,10 @@
+2025-12-13 08:00:00 INFO: Iniciando servidor web Apache Tomcat.
+2025-12-13 08:00:02 INFO: Desplegando aplicación 'WebApp-v2'.
+2025-12-13 08:05:10 ERROR: Excepción NullPointer en AuthController.
+2025-12-13 08:06:00 INFO: Contexto de Servlet inicializado correctamente.
+2025-12-13 08:10:45 WARNING: Respuesta lenta en endpoint /api/users (tiempo: 3005ms).
+2025-12-13 08:12:00 INFO: Usuario 'admin' conectado exitosamente.
+2025-12-13 08:15:30 ERROR: Fallo de handshake SSL en puerto 443.
+2025-12-13 08:20:00 INFO: Tarea programada 'Cleanup' ejecutada.
+2025-12-13 08:25:10 WARNING: Uso de CPU del hilo principal alto (92%).
+2025-12-13 08:30:05 ERROR: Error 500 Internal Server Error enviado a cliente 192.168.0.50.
